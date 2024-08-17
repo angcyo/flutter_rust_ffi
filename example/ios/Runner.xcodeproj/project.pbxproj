@@ -468,7 +468,6 @@
 					"$(inherited)",
 					"-framework",
 					"\"flutter_rust_ffi\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutterRustFfiExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -662,7 +661,6 @@
 					"$(inherited)",
 					"-framework",
 					"\"flutter_rust_ffi\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutterRustFfiExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -696,7 +694,6 @@
 					"$(inherited)",
 					"-framework",
 					"\"flutter_rust_ffi\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutterRustFfiExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
