@@ -20,6 +20,7 @@ A new Flutter rust ffi project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.static_framework = true
+  s.vendored_libraries = '*.a'
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
 

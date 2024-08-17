@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_rust_ffi: 1c0ae39980a83e84bfed7fca2b144c349560c0e7
+  flutter_rust_ffi: 11efe7629adff0ee4544a19791cbc6e089a37e6e
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
