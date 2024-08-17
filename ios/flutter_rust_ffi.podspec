@@ -19,6 +19,7 @@ A new Flutter rust ffi project.
   # `../src/*` so that the C sources can be shared among all target platforms.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+  s.static_framework = true
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
 
