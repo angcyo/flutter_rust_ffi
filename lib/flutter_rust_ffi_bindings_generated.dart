@@ -8,7 +8,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-/// Bindings for `src/flutter_rust_ffi.h`.
+/// Bindings for `rust/rust_api_test.h`.
 ///
 /// Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 ///
@@ -27,43 +27,117 @@ class FlutterRustFfiBindings {
           lookup)
       : _lookup = lookup;
 
-  /// A very short-lived native function.
+  /// \brief
   ///
-  /// For very short-lived functions, it is fine to call them on the main isolate.
-  /// They will block the Dart execution while running the native function, so
-  /// only do this for native functions which are guaranteed to be short-lived.
-  int sum(
-    int a,
-    int b,
+  /// @author <a href="mailto:angcyo@126.com">angcyo</a>
+  /// @date 2024-08-17
+  ///
+  /// 测试布尔类型的参数传输
+  /// @return 取反
+  bool test_bool(
+    bool value,
   ) {
-    return _sum(
-      a,
-      b,
+    return _test_bool(
+      value,
     );
   }
 
-  late final _sumPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('sum');
-  late final _sum = _sumPtr.asFunction<int Function(int, int)>();
+  late final _test_boolPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Bool)>>('test_bool');
+  late final _test_bool = _test_boolPtr.asFunction<bool Function(bool)>();
 
-  /// A longer lived native function, which occupies the thread calling it.
-  ///
-  /// Do not call these kind of native functions in the main isolate. They will
-  /// block Dart execution. This will cause dropped frames in Flutter applications.
-  /// Instead, call these native functions on a separate isolate.
-  int sum_long_running(
-    int a,
-    int b,
+  /// \brief
+  /// 测试字节类型的参数传输
+  Vec_uint8_t test_bytes(
+    ffi.Pointer<Vec_uint8_t> value,
   ) {
-    return _sum_long_running(
-      a,
-      b,
+    return _test_bytes(
+      value,
     );
   }
 
-  late final _sum_long_runningPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>(
-          'sum_long_running');
-  late final _sum_long_running =
-      _sum_long_runningPtr.asFunction<int Function(int, int)>();
+  late final _test_bytesPtr = _lookup<
+          ffi.NativeFunction<Vec_uint8_t Function(ffi.Pointer<Vec_uint8_t>)>>(
+      'test_bytes');
+  late final _test_bytes = _test_bytesPtr
+      .asFunction<Vec_uint8_t Function(ffi.Pointer<Vec_uint8_t>)>();
+
+  /// \brief
+  /// 测试双精度浮点类型的参数传输
+  double test_double(
+    double value,
+  ) {
+    return _test_double(
+      value,
+    );
+  }
+
+  late final _test_doublePtr =
+      _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Double)>>(
+          'test_double');
+  late final _test_double =
+      _test_doublePtr.asFunction<double Function(double)>();
+
+  /// \brief
+  /// 测试浮点类型的参数传输
+  double test_float(
+    double value,
+  ) {
+    return _test_float(
+      value,
+    );
+  }
+
+  late final _test_floatPtr =
+      _lookup<ffi.NativeFunction<ffi.Float Function(ffi.Float)>>('test_float');
+  late final _test_float = _test_floatPtr.asFunction<double Function(double)>();
+
+  /// \brief
+  /// 测试整数类型的参数传输
+  int test_int(
+    int value,
+  ) {
+    return _test_int(
+      value,
+    );
+  }
+
+  late final _test_intPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Int32)>>('test_int');
+  late final _test_int = _test_intPtr.asFunction<int Function(int)>();
+
+  /// \brief
+  /// 测试字符串类型的参数传输
+  Vec_uint8_t test_string(
+    ffi.Pointer<Vec_uint8_t> value,
+  ) {
+    return _test_string(
+      value,
+    );
+  }
+
+  late final _test_stringPtr = _lookup<
+          ffi.NativeFunction<Vec_uint8_t Function(ffi.Pointer<Vec_uint8_t>)>>(
+      'test_string');
+  late final _test_string = _test_stringPtr
+      .asFunction<Vec_uint8_t Function(ffi.Pointer<Vec_uint8_t>)>();
 }
+
+/// \brief
+/// Same as [`Vec<T>`][`rust::Vec`], but with guaranteed `#[repr(C)]` layout
+final class Vec_uint8 extends ffi.Struct {
+  /// <No documentation available>
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  /// <No documentation available>
+  @ffi.Size()
+  external int len;
+
+  /// <No documentation available>
+  @ffi.Size()
+  external int cap;
+}
+
+/// \brief
+/// Same as [`Vec<T>`][`rust::Vec`], but with guaranteed `#[repr(C)]` layout
+typedef Vec_uint8_t = Vec_uint8;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_rust_ffi/flutter_rust_ffi.dart' as flutter_rust_ffi;
+import 'package:flutter_rust_ffi/flutter_rust_ffi.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,14 +16,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
-
   @override
   void initState() {
     super.initState();
-    sumResult = flutter_rust_ffi.sum(1, 2);
-    sumAsyncResult = flutter_rust_ffi.sumAsync(3, 4);
   }
 
   @override
@@ -40,30 +36,42 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 const Text(
-                  'This calls a native function through FFI that is shipped as source in the package. '
-                  'The native code is built as part of the Flutter Runner build.',
+                  'Flutter 通过 ffi 调用rust编写打包生成的.so文件(用于Android)和.a文件(用于iOS)接口方法.',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
                 Text(
-                  'sum(1, 2) = $sumResult',
+                  'testBool->${testBool(false)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testInt->${testInt(10)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testFloat->${testFloat(10.00)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testDouble->${testDouble(10.00)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testString->${testString(runtimeType.toString())}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testBytes->${testBytes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
               ],
             ),
           ),
