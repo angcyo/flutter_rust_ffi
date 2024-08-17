@@ -1,5 +1,6 @@
 #include "flutter_rust_ffi.h"
 
+/*
 // A very short-lived native function.
 //
 // For very short-lived functions, it is fine to call them on the main isolate.
@@ -21,3 +22,4 @@ FFI_PLUGIN_EXPORT int sum_long_running(int a, int b) {
 #endif
   return a + b;
 }
+*/

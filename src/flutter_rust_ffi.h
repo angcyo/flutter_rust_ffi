@@ -1,3 +1,4 @@
+/*
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,3 +29,4 @@ FFI_PLUGIN_EXPORT int sum(int a, int b);
 // block Dart execution. This will cause dropped frames in Flutter applications.
 // Instead, call these native functions on a separate isolate.
 FFI_PLUGIN_EXPORT int sum_long_running(int a, int b);
+*/
