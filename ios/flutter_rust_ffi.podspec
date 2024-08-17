@@ -29,7 +29,7 @@ A new Flutter rust ffi project.
   s.swift_version = '5.0'
 
   s.user_target_xcconfig = {
-     'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../../../ios/librust_api_test.a'
+     'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../.symlinks/plugins/flutter_rust_ffi/ios/librust_api_test.a'
   }
 
 end
