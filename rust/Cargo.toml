@@ -1,0 +1,25 @@
+[package]
+name = "rust_api_test"
+version = "0.1.0"
+edition = "2021"
+authors = ["angcyo"]
+homepage = "https://github.com/angcyo/flutter_rust_ffi"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+# https://crates.io/crates/safer-ffi
+safer-ffi = "0.1.12"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[features]
+# If you want to generate the headers, use a feature-gate
+# to opt into doing so:
+headers = ["safer-ffi/headers"]
