@@ -94,7 +94,8 @@ const String _libName = 'rust_api_test';
 /// The dynamic library in which the symbols for [FlutterRustFfiBindings] can be found.
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
-    return DynamicLibrary.open('$_libName.framework/$_libName');
+    //return DynamicLibrary.open('$_libName.framework/$_libName');
+    return DynamicLibrary.executable();
   }
   if (Platform.isAndroid || Platform.isLinux) {
     return DynamicLibrary.open('lib$_libName.so');
