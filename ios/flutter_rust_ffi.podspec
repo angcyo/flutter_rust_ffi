@@ -29,7 +29,17 @@ A new Flutter rust ffi project.
   s.swift_version = '5.0'
 
   s.user_target_xcconfig = {
-     'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../.symlinks/plugins/flutter_rust_ffi/ios/librust_api_test.a'
+    'DEFINES_MODULE' => 'YES',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+    'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../.symlinks/plugins/flutter_rust_ffi/ios/${PLATFORM_NAME}/librust_api_test.a'
   }
+
+#   s.pod_target_xcconfig = {
+#     'DEFINES_MODULE' => 'YES',
+#     # Flutter.framework does not contain a i386 slice.
+#     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+#     #'OTHER_LDFLAGS' => '-force_load ${BUILT_PRODUCTS_DIR}/librust_lib_frb1.a',
+#     'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../.symlinks/plugins/flutter_rust_ffi/ios/${PLATFORM_NAME}/librust_api_test.a'
+#   }
 
 end
