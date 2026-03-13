@@ -19,6 +19,6 @@ set(flutter_rust_ffi_bundled_libraries
   # Defined in ../src/CMakeLists.txt.
   # This can be changed to accommodate different builds.
   $<TARGET_FILE:flutter_rust_ffi>
-  PARENT_SCOPE
   "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+  PARENT_SCOPE
 )
