@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Turn off echo
+set +x
+
+# 使用默认平台编译 `rustup show active-toolchain`
+# stable-aarch64-apple-darwin (default)
+# 输出目录在 ./release
+
+rustup show active-toolchain
+
+cargo build --release
+
+cp target/release/librust_api_test2.a ../macos/
+
+# 编译头文件
+./generate_headers
