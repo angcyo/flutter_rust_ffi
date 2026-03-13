@@ -1,20 +1,23 @@
 # flutter_rust_ffi
 
-`Flutter` 通过`ffi`调用`Rust`编译生成的产物.so文件(Android)和.a文件(iOS)接口方法;
+`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a文件(iOS/macOS)`和`.dll文件(windows)`接口方法;
 
 拾用本文您将获取以下技能:
 
 - `Rust`编译.so文件的能力;
 - `Rust`编译.a文件的能力;
+- `Rust`编译.dll文件的能力;
 - `Flutter`调用.so文件的能力;
 - `Flutter`调用.a文件的能力;
+- `Flutter`调用.dll文件的能力;
 
 附加`Buff`:
 
 - `Flutter`环境安装指南;
 - `Rust`环境安装指南;
 - `Android`不同架构(v7a/v8a)的.so文件加载方式;
-- `iOS`不同设备(真机/模拟器)的.a文件加载方式;
+- `iOS/macOS`不同设备(真机/模拟器)的.a文件加载方式;
+- `windoes`的.dll文件加载方式;
 
 ## 本文环境
 

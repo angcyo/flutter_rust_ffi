@@ -1,7 +1,7 @@
 name: flutter_rust_ffi
 description: "A new Flutter rust ffi project."
 version: 0.0.1
-homepage:
+homepage: https://github.com/angcyo/flutter_rust_ffi
 
 environment:
   sdk: ^3.5.0
@@ -10,15 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
-  ffi: ^2.1.3
+  # https://pub.dev/packages/plugin_platform_interface
+  plugin_platform_interface: ^2.1.8
+  # https://pub.dev/packages/ffi
+  ffi: ^2.2.0
 
 dev_dependencies:
-  ffi: ^2.1.0
-  ffigen: ^11.0.0
+  # https://pub.dev/packages/ffi
+  ffi: ^2.2.0
+  # https://pub.dev/packages/ffigen
+  ffigen: ^20.1.1
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  # https://pub.dev/packages/flutter_lints
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_rust_ffi/ios"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_rust_ffi: 4fa0a65641799ff370f6b6b44f6944ceab27c716
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_rust_ffi: b16b53db0dc3d8fd08c5ed693965150470c1965d
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

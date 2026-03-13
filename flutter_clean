@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pwd
+flutter clean
+
+# shellcheck disable=SC2164
+cd example
+
+pwd
+flutter clean

@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 const Text(
-                  'Flutter 通过 ffi 调用rust编写打包生成的.so文件(用于Android)和.a文件(用于iOS)接口方法.',
+                  '`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a文件(iOS/macOS)`和`.dll文件(windows)`接口方法.',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),

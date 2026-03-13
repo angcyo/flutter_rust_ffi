@@ -9,9 +9,9 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 A new Flutter rust ffi project.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'http://github.com/angcyo'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'angcyo' => 'angcyo@126.com' }
 
   # This will ensure the source files in Classes/ are included in the native
   # builds of apps using this FFI plugin. Podspec does not support relative
@@ -22,6 +22,13 @@ A new Flutter rust ffi project.
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+  #s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
+
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'OTHER_LDFLAGS' => '-lc++ -force_load ${PODS_TARGET_SRCROOT}/librust_api_test.a'
+  }
+  s.vendored_libraries = 'librust_api_test.a'
+
 end
