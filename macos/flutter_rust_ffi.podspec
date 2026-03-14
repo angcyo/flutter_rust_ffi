@@ -29,6 +29,8 @@ A new Flutter rust ffi project.
     'DEFINES_MODULE' => 'YES',
     'OTHER_LDFLAGS' => '-lc++ -force_load ${PODS_TARGET_SRCROOT}/librust_api_test.a'
   }
-  s.vendored_libraries = 'librust_api_test.a'
+  #s.vendored_libraries = 'librust_api_test.a'
 
+  s.vendored_libraries = 'librust_api_test.a', 'librust_api_test2.dylib'
+  s.vendored_frameworks = 'rust_api_test2.xcframework'
 end

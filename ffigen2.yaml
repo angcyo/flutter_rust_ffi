@@ -1,0 +1,19 @@
+# Run with `dart run ffigen --config ffigen.yaml`.
+name: FlutterRustFfiBindings
+description: |
+  Bindings for `rust/rust_api_test2.h`.
+
+  Regenerate bindings with `dart run ffigen --config ffigen2.yaml`.
+output: 'lib/flutter_rust_ffi_bindings_generated2.dart'
+headers:
+  entry-points:
+    - 'rust2/rust_api_test2.h'
+  include-directives:
+    - 'rust2/rust_api_test2.h'
+preamble: |
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+comments:
+  style: any
+  length: full

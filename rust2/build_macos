@@ -11,7 +11,10 @@ rustup show active-toolchain
 
 cargo build --release
 
-cp target/release/librust_api_test2.a ../macos/
+# cp target/release/librust_api_test2.a ../macos/
+cp target/release/librust_api_test2.dylib ../macos/
+
+./build_macos_framework
 
 # 编译头文件
 ./generate_headers

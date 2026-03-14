@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter_rust_ffi/flutter_rust_ffi.dart' as flutter_rust_ffi;
 import 'package:flutter_rust_ffi/flutter_rust_ffi.dart';
 
 void main() {
@@ -36,7 +33,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 const Text(
-                  '`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a文件(iOS/macOS)`和`.dll文件(windows)`接口方法.',
+                  '`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a/.dylib文件(iOS/macOS)`和`.dll文件(windows)`接口方法.',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -47,7 +44,17 @@ class _MyAppState extends State<MyApp> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
+                  'testBool2->${testBool2(false)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
                   'testInt->${testInt(10)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testInt2->${testInt2(10)}',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -57,7 +64,17 @@ class _MyAppState extends State<MyApp> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
+                  'testFloat2->${testFloat2(10.00)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
                   'testDouble->${testDouble(10.00)}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testDouble2->${testDouble2(10.00)}',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -67,7 +84,17 @@ class _MyAppState extends State<MyApp> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
+                  'testString2->${testString2(runtimeType.toString())}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
                   'testBytes->${testBytes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'testBytes2->${testBytes2([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),

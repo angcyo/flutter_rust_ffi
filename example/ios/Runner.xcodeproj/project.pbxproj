@@ -352,13 +352,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -493,7 +489,7 @@
 					"-framework",
 					"\"flutter_rust_ffi\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -690,7 +686,7 @@
 					"-framework",
 					"\"flutter_rust_ffi\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -726,7 +722,7 @@
 					"-framework",
 					"\"flutter_rust_ffi\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angcyo.ffi.flutter.RustFfiExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

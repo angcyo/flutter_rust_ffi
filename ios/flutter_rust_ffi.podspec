@@ -32,4 +32,5 @@ A new Flutter rust ffi project.
   }
   s.vendored_libraries = '$(PLATFORM_NAME)/librust_api_test.a'
 
+  s.vendored_frameworks = 'Frameworks/rust_api_test2.xcframework'
 end

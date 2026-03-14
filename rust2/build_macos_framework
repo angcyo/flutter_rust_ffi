@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# 配置变量
+FW_NAME="rust_api_test2"
+MAC_OS_LIB="target/release/librust_api_test2.dylib"
+# 如果有模拟器版本也可以加入
+OUTPUT="output/macos"
+FW_DIR="${OUTPUT}/${FW_NAME}.framework"
+
+rm -rf "${FW_DIR}"
+rm -rf "${OUTPUT}/${FW_NAME}.xcframework"
+
+# 1. 准备 Framework 目录
+mkdir -p "${FW_DIR}"
+mkdir -p "${FW_DIR}/Versions/A/Resources"
+mkdir -p "${FW_DIR}/Versions/A/Headers"
+
+# 3. 移动文件并改名
+cp "${MAC_OS_LIB}" "${FW_DIR}/Versions/A/${FW_NAME}"
+
+# 4. 生成 Info.plist
+cat <<EOF > "${FW_DIR}/Versions/A/Resources/Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.angcyo.${FW_NAME}</string>
+    <key>CFBundleExecutable</key>
+    <string>${FW_NAME}</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+</dict>
+</plist>
+EOF
+
+# 4. 创建软链接 (关键步骤)
+CURRENT_DIR=$(pwd)
+# shellcheck disable=SC2164
+cd "${FW_DIR}"
+ln -sfh A Versions/Current
+ln -sfh Versions/Current/${FW_NAME} ${FW_NAME}
+ln -sfh Versions/Current/Resources Resources
+ln -sfh Versions/Current/Headers Headers
+# shellcheck disable=SC2164
+cd "$CURRENT_DIR"
+
+# 5. 封包成 XCFramework
+xcodebuild -create-xcframework \
+    -framework "${OUTPUT}/${FW_NAME}.framework" \
+    -output "${OUTPUT}/${FW_NAME}.xcframework"
+
+rm -rf "../macos/${FW_NAME}.xcframework/"
+cp -r "${OUTPUT}/${FW_NAME}.xcframework" ../macos/

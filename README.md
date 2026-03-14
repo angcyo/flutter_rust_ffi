@@ -1,14 +1,16 @@
 # flutter_rust_ffi
 
-`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a文件(iOS/macOS)`和`.dll文件(windows)`接口方法;
+`Flutter` 通过`ffi`调用`Rust`编译生成的产物`.so文件(Android)`, `.a/.dylib文件(iOS/macOS)`和`.dll文件(windows)`接口方法;
 
 拾用本文您将获取以下技能:
 
 - `Rust`编译.so文件的能力;
 - `Rust`编译.a文件的能力;
+- `Rust`编译.dylib文件的能力;
 - `Rust`编译.dll文件的能力;
 - `Flutter`调用.so文件的能力;
 - `Flutter`调用.a文件的能力;
+- `Flutter`调用.dylib文件的能力;
 - `Flutter`调用.dll文件的能力;
 
 附加`Buff`:
@@ -16,7 +18,7 @@
 - `Flutter`环境安装指南;
 - `Rust`环境安装指南;
 - `Android`不同架构(v7a/v8a)的.so文件加载方式;
-- `iOS/macOS`不同设备(真机/模拟器)的.a文件加载方式;
+- `iOS/macOS`不同设备(真机/模拟器)的.a/.dylib文件加载方式;
 - `windoes`的.dll文件加载方式;
 
 ## 本文环境
@@ -51,8 +53,8 @@
 
 ![](png/p3.png)
 
-- `cdylib`用于输出`.so`
-- `staticlib`用于输出`.a`
+- `cdylib`用于输出动态库, 比如`.so` `.dylib` `.dll`
+- `staticlib`用于输出静态库, 比如`.a` `.lib`
 
 如果您还想了解更多类型可以参考: https://doc.rust-lang.org/reference/linkage.html
 
@@ -88,7 +90,11 @@
 
 ![](png/p4.png)
 
+## 加载
+
 之后将产物分别复制到`Flutter`工程中的`android/src/main/jniLibs/arm64-v8a`和`android/src/main/jniLibs/armeabi-v7a`这样在`Android`平台上,就会根据`CPU`的架构自动加载对应的so文件, 这一点在`iOS`平台上需要手动处理, 在介绍`iOS`时, 会提及.
+
+然后在`Flutter`端使用`DynamicLibrary.open('librust_api_test.so')`加载动态库即可.
 
 到这为止, `Android`平台的产物`so文件`就已经输出了. 接下来编译`iOS`.
 
@@ -132,9 +138,12 @@
 之后在iOS工程中的`xxx.podspec`文件中加入:
 
 ```
+s.vendored_libraries = '$(PLATFORM_NAME)/librust_api_test.a' #引入文件
 ...
-s.user_target_xcconfig = {
-'OTHER_LDFLAGS' => '-force_load ${PODS_ROOT}/../.symlinks/plugins/flutter_rust_ffi/ios/${PLATFORM_NAME}/librust_api_test.a'
+s.pod_target_xcconfig = {
+   'DEFINES_MODULE' => 'YES',
+   'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' ,
+   'OTHER_LDFLAGS' => '-lc++ -force_load $(PODS_TARGET_SRCROOT)/$(PLATFORM_NAME)/librust_api_test.a' #强制加载符号表, 否则会被`死亡代码`优化掉.
 }
 ...
 ```
@@ -145,7 +154,183 @@ s.user_target_xcconfig = {
 
 之后在`Flutter`工程中的`example/ios`文件夹中使用`pod install`命令.
 
-到这为止, `iOS`平台的产物`a文件`就已经输出了.
+到这为止, `iOS`平台的产物`.a文件`就已经输出了.
+
+## 加载
+
+在`Flutter`端使用`DynamicLibrary.executable()`加载静态库即可.
+
+# 使用`Rust`编译`.dylib`
+
+## 工程准备
+
+与上述一致.
+
+## 编译
+
+`ios` 平台使用 `cargo lipo --targets aarch64-apple-ios --release` 编译.
+`macOS` 平台直接使用 `cargo build --release` 编译.
+
+## 在 `macOS` 上可以直接使用`.dylib`文件.
+
+1. 在`flutter_rust_ffi.podspec`文件中加入`s.vendored_libraries = 'librust_api_test2.dylib'`
+2. 在`Flutter`端使用`DynamicLibrary.open('librust_api_test2.dylib')`加载动态库即可.
+
+## 在 `iOS` 上需要封装成`framework`才能使用`.dylib`文件.
+
+1. 需要编译好的`.dylib`文件
+2. 需要创建一个`Info.plist`文件
+3. 需要使用`install_name_tool`(关键步骤)
+4. 封装成`framework`(是一个普通文件夹)
+5. 封装成`xcframework`(是一个特殊文件夹)
+
+```shell
+#!/bin/bash
+
+# 配置变量
+LIB_NAME="rust_api_test2"
+IPHONE_OS_LIB="target/aarch64-apple-ios/release/librust_api_test2.dylib"
+# 如果有模拟器版本也可以加入
+OUTPUT="output/ios"
+
+rm -rf "${OUTPUT}/${LIB_NAME}.framework"
+rm -rf "${OUTPUT}/${LIB_NAME}.xcframework"
+
+# 1. 准备 Framework 目录
+mkdir -p "${OUTPUT}/${LIB_NAME}.framework"
+
+# 2. 修复 Install Name (关键：让 dyld 知道去 @rpath 找)
+install_name_tool -id "@rpath/${LIB_NAME}.framework/${LIB_NAME}" "${IPHONE_OS_LIB}"
+
+# 3. 移动文件并改名
+cp "${IPHONE_OS_LIB}" "${OUTPUT}/${LIB_NAME}.framework/${LIB_NAME}"
+
+# 4. 生成 Info.plist
+cat <<EOF > "${OUTPUT}/${LIB_NAME}.framework/Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>${LIB_NAME}</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.angcyo.${LIB_NAME}</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+</dict>
+</plist>
+EOF
+
+# 5. 封包成 XCFramework
+xcodebuild -create-xcframework \
+    -framework "${OUTPUT}/${LIB_NAME}.framework" \
+    -output "${OUTPUT}/${LIB_NAME}.xcframework"
+```
+
+## 加载 
+
+1. 将生成的放到任意目录, 然后在`flutter_rust_ffi.podspec`文件中加入`s.vendored_frameworks = 'Frameworks/rust_api_test2.xcframework'`
+2. 在`Flutter`端使用`DynamicLibrary.open('rust_api_test2.framework/rust_api_test2');`加载动态库即可(这里不需要用`xcframework`).
+
+## 在 `macOS` 上也可以将`.dylib`文件封装成`framework`使用.
+
+`macOS`上的`framework`与`iOS`上的`framework`在结构上会有不同.
+
+1. 需要编译好的`.dylib`文件
+2. 需要创建一个`Info.plist`文件
+3. 需要创建一个`Versions/A/Resources`目录
+4. 需要创建一个`Versions/A/Headers`目录
+5. 需要创建软链接 (关键步骤)
+6. 封装成`framework`(是一个普通文件夹)
+7. 封装成`xcframework`(是一个特殊文件夹)
+
+```shell
+#!/bin/bash
+
+# 配置变量
+FW_NAME="rust_api_test2"
+MAC_OS_LIB="target/release/librust_api_test2.dylib"
+# 如果有模拟器版本也可以加入
+OUTPUT="output/macos"
+FW_DIR="${OUTPUT}/${FW_NAME}.framework"
+
+rm -rf "${FW_DIR}"
+rm -rf "${OUTPUT}/${FW_NAME}.xcframework"
+
+# 1. 准备 Framework 目录
+mkdir -p "${FW_DIR}"
+mkdir -p "${FW_DIR}/Versions/A/Resources"
+mkdir -p "${FW_DIR}/Versions/A/Headers"
+
+# 3. 移动文件并改名
+cp "${MAC_OS_LIB}" "${FW_DIR}/Versions/A/${FW_NAME}"
+
+# 4. 生成 Info.plist
+cat <<EOF > "${FW_DIR}/Versions/A/Resources/Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.angcyo.${FW_NAME}</string>
+    <key>CFBundleExecutable</key>
+    <string>${FW_NAME}</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+</dict>
+</plist>
+EOF
+
+# 4. 创建软链接 (关键步骤)
+CURRENT_DIR=$(pwd)
+# shellcheck disable=SC2164
+cd "${FW_DIR}"
+ln -sfh A Versions/Current
+ln -sfh Versions/Current/${FW_NAME} ${FW_NAME}
+ln -sfh Versions/Current/Resources Resources
+ln -sfh Versions/Current/Headers Headers
+# shellcheck disable=SC2164
+cd "$CURRENT_DIR"
+
+# 5. 封包成 XCFramework
+xcodebuild -create-xcframework \
+    -framework "${OUTPUT}/${FW_NAME}.framework" \
+    -output "${OUTPUT}/${FW_NAME}.xcframework"
+```
+
+加载`framework`的方式与`iOS`端一致.
+
+# 使用`Rust`编译`.dll`
+
+## 工程准备
+
+与上述一致.
+
+## 编译
+
+在 `windoes` 平台上直接使用 `cargo build --release` 编译即可生成`.dll`文件.
+
+## 加载
+
+1. 在`windows/CMakeLists.txt`文件中加入dll所在的目录`"${CMAKE_CURRENT_SOURCE_DIR}/libs"`
+
+这里注意必须要加载`PARENT_SCOPE`前面.
+
+```
+set(flutter_rust_ffi_bundled_libraries
+  # Defined in ../src/CMakeLists.txt.
+  # This can be changed to accommodate different builds.
+  $<TARGET_FILE:flutter_rust_ffi>
+  "${CMAKE_CURRENT_SOURCE_DIR}/libs" #...
+  PARENT_SCOPE
+)
+```
+
+2. 在`Flutter`端使用`DynamicLibrary.open('libs/rust_api_test.dll')`加载动态库即可.
 
 # `Rust`导出`ffi`
 

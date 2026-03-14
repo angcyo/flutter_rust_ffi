@@ -11,7 +11,17 @@ echo "output-> target/aarch64-apple-ios/release"
 # 复制产物
 # mkdir -p output/ && cp target/aarch64-apple-ios/release/librust_api_test2.a output/
 
-cp target/aarch64-apple-ios/release/librust_api_test2.a ../ios/iphoneos/
+#cp target/aarch64-apple-ios/release/librust_api_test2.a ../ios/iphoneos/
+
+#rm -rf ../ios/Frameworks/rust_api_test2.xcframework/
+#
+#xcodebuild -create-xcframework \
+#  -library target/aarch64-apple-ios/release/librust_api_test2.a \
+#  -output target/aarch64-apple-ios/release/rust_api_test2.xcframework
+#
+#cp -r target/aarch64-apple-ios/release/rust_api_test2.xcframework ../ios/Frameworks/
+
+./build_ios_framework
 
 # 编译头文件
 ./generate_headers

@@ -5,17 +5,27 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 
+import 'ffi_struct.dart';
 import 'flutter_rust_ffi_bindings_generated.dart';
+import 'flutter_rust_ffi_bindings_generated2.dart' as r2;
 
 /// 测试布尔类型的参数传输
 /// @return 取反
 bool testBool(bool value) => _bindings.test_bool(value);
 
+bool testBool2(bool value) => _bindings2.test_bool2(value);
+
 int testInt(int value) => _bindings.test_int(value);
+
+int testInt2(int value) => _bindings2.test_int2(value);
 
 double testFloat(double value) => _bindings.test_float(value);
 
+double testFloat2(double value) => _bindings2.test_float2(value);
+
 double testDouble(double value) => _bindings.test_double(value);
+
+double testDouble2(double value) => _bindings2.test_double2(value);
 
 String testString(String value) {
   return ffiPtrList((ptrList) {
@@ -23,9 +33,21 @@ String testString(String value) {
   }, [value])!;
 }
 
+String testString2(String value) {
+  return ffiPtrList((ptrList) {
+    return _bindings2.test_string2(ptrList[0]).toStr();
+  }, [value])!;
+}
+
 List<int> testBytes(List<int> value) {
   return ffiPtrList((ptrList) {
     return _bindings.test_bytes(ptrList[0]).toBytes();
+  }, [value])!;
+}
+
+List<int> testBytes2(List<int> value) {
+  return ffiPtrList((ptrList) {
+    return _bindings2.test_bytes2(ptrList[0]).toBytes();
   }, [value])!;
 }
 
@@ -89,6 +111,8 @@ R? ffiPtrList<R>(
   return null;
 }
 
+//MARK: - rust1
+
 const String _libName = 'rust_api_test';
 
 /// The dynamic library in which the symbols for [FlutterRustFfiBindings] can be found.
@@ -108,3 +132,29 @@ final DynamicLibrary _dylib = () {
 
 /// The bindings to the native functions in [_dylib].
 final FlutterRustFfiBindings _bindings = FlutterRustFfiBindings(_dylib);
+
+//MARK: - rust2
+
+const String _libName2 = 'rust_api_test2';
+
+/// The dynamic library in which the symbols for [FlutterRustFfiBindings] can be found.
+final DynamicLibrary _dylib2 = () {
+  if (Platform.isMacOS) {
+    return DynamicLibrary.open('lib$_libName2.dylib');
+    //return DynamicLibrary.open('$_libName2.framework/$_libName2');
+  }
+  if (Platform.isIOS) {
+    //return DynamicLibrary.executable();
+    return DynamicLibrary.open('$_libName2.framework/$_libName2');
+  }
+  if (Platform.isAndroid || Platform.isLinux) {
+    return DynamicLibrary.open('lib$_libName2.so');
+  }
+  if (Platform.isWindows) {
+    return DynamicLibrary.open('libs/$_libName2.dll');
+  }
+  throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+}();
+
+/// The bindings to the native functions in [_dylib].
+final r2.FlutterRustFfiBindings _bindings2 = r2.FlutterRustFfiBindings(_dylib2);

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# 配置变量
+LIB_NAME="rust_api_test2"
+IPHONE_OS_LIB="target/aarch64-apple-ios/release/librust_api_test2.dylib"
+# 如果有模拟器版本也可以加入
+OUTPUT="output/ios"
+
+rm -rf "${OUTPUT}/${LIB_NAME}.framework"
+rm -rf "${OUTPUT}/${LIB_NAME}.xcframework"
+
+# 1. 准备 Framework 目录
+mkdir -p "${OUTPUT}/${LIB_NAME}.framework"
+
+# 2. 修复 Install Name (关键：让 dyld 知道去 @rpath 找)
+install_name_tool -id "@rpath/${LIB_NAME}.framework/${LIB_NAME}" "${IPHONE_OS_LIB}"
+
+# 3. 移动文件并改名
+cp "${IPHONE_OS_LIB}" "${OUTPUT}/${LIB_NAME}.framework/${LIB_NAME}"
+
+# 4. 生成 Info.plist
+cat <<EOF > "${OUTPUT}/${LIB_NAME}.framework/Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>${LIB_NAME}</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.angcyo.${LIB_NAME}</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+</dict>
+</plist>
+EOF
+
+# 5. 封包成 XCFramework
+xcodebuild -create-xcframework \
+    -framework "${OUTPUT}/${LIB_NAME}.framework" \
+    -output "${OUTPUT}/${LIB_NAME}.xcframework"
+
+rm -rf "../ios/Frameworks/${LIB_NAME}.xcframework/"
+cp -r "${OUTPUT}/${LIB_NAME}.xcframework" ../ios/Frameworks/
