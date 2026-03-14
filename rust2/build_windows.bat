@@ -5,7 +5,7 @@ chcp 65001 >> nul
 rem 使用默认平台编译 `rustup show active-toolchain`
 rem stable-x86_64-pc-windows-msvc (default) (64位)
 rem i686-pc-windows-msvc (32位)
-rem 输出目录在 ./release
+rem 输出目录在 ./target/release
 
 rustup show active-toolchain
 

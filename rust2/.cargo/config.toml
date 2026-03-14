@@ -1,0 +1,7 @@
+[target.aarch64-unknown-linux-ohos]
+linker = "/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/aarch64-unknown-linux-ohos-clang"
+
+#rustflags = [
+#    "-C", "link-arg=--target=aarch64-unknown-linux-ohos",
+#    "-C", "link-arg=--sysroot=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot",
+#]
