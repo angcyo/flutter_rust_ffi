@@ -12,7 +12,7 @@ rustup show active-toolchain
 cargo build --release
 
 rem 复制到上级目录 必须用\而不是/
-xcopy /y .\target\release\librust_api_test2.dll ..\windows\libs\
+xcopy /y .\target\release\rust_api_test2.dll ..\windows\libs\
 
 rem 编译头文件
 ./generate_headers.bat
