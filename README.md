@@ -121,8 +121,8 @@
 
 ## 编译
 
-`cargo lipo --targets aarch64-apple-ios --release`
-`cargo lipo --targets aarch64-apple-ios-sim --release`
+- `cargo lipo --targets aarch64-apple-ios --release`
+- `cargo lipo --targets aarch64-apple-ios-sim --release`
 
 这里要分开2个命令编译不同的文件.
 
