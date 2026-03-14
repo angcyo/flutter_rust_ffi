@@ -168,8 +168,8 @@ s.pod_target_xcconfig = {
 
 ## 编译
 
-`ios` 平台使用 `cargo lipo --targets aarch64-apple-ios --release` 编译.
-`macOS` 平台直接使用 `cargo build --release` 编译.
+- `ios` 平台使用 `cargo lipo --targets aarch64-apple-ios --release` 编译.
+- `macOS` 平台直接使用 `cargo build --release` 编译.
 
 ## 在 `macOS` 上可以直接使用`.dylib`文件.
 
