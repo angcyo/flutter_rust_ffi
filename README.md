@@ -436,6 +436,9 @@ final DynamicLibrary _dylib = () {
 
 至此文章就结束了!
 
+- [flutter_rust_ffi](https://github.com/angcyo/flutter_rust_ffi)
+- [ohos_rust_napi_demo](https://github.com/angcyo/ohos_rust_napi_demo)
+
 ---
 
 **群内有`各(pian)种(ni)各(jin)样(qun)`的大佬,等你来撩.**
