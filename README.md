@@ -449,5 +449,3 @@ final DynamicLibrary _dylib = () {
 ![](png/all_in2.jpg)
 
 [开源地址](https://github.com/angcyo/flutter_rust_ffi)
-
-<img height="30px" src="https://profile-counter.glitch.me/flutter_rust_ffi/count.svg" alt ="Loading">
